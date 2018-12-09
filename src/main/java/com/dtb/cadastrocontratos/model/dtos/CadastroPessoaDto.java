@@ -1,11 +1,13 @@
 package com.dtb.cadastrocontratos.model.dtos;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
-public class cadastroPessoaDto {
+public class CadastroPessoaDto {
 	private Long id;
 	@NotNull(message = "O cpf deve ser informado.")
 	@CPF(message = "O cpf informado é invalido")
@@ -14,12 +16,12 @@ public class cadastroPessoaDto {
 	@Length(min = 3, max = 255, message = "O nome deve conter entre 3 e 255 caracteres.")
 	private String nome;
 	private String referencia;
-	private String dataNascimento;
+	private Date dataNascimento;
 	@NotNull(message = "O numero do contrato deve ser informado")
 	@Length(min = 12, message = "O contrato possui 12 caracteres. Formato: 000000011333")
 	private String contratoContrato;
 	private String contratoDataVencimento;
-	private Long id_condominio;
+	private Long condominioId;
 	private String apartamento;
 	private String bloco;
 	public Long getId() {
@@ -47,10 +49,10 @@ public class cadastroPessoaDto {
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
 	}
-	public String getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
-	public void setDataNascimento(String dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	public String getContratoContrato() {
@@ -65,11 +67,12 @@ public class cadastroPessoaDto {
 	public void setContratoDataVencimento(String contratoDataVencimento) {
 		this.contratoDataVencimento = contratoDataVencimento;
 	}
-	public Long getId_condominio() {
-		return id_condominio;
+	
+	public Long getCondominioId() {
+		return condominioId;
 	}
-	public void setId_condominio(Long id_condominio) {
-		this.id_condominio = id_condominio;
+	public void setCondominioId(Long condominioId) {
+		this.condominioId = condominioId;
 	}
 	public String getApartamento() {
 		return apartamento;

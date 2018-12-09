@@ -1,11 +1,13 @@
 package com.dtb.cadastrocontratos.model.dtos;
 
+import java.util.Date;
+
 public class PessoaDto {
 	private Long id;
 	private String nome;
 	private String cpf;
 	private String referencia;
-	private String dataNascimento;
+	private Date nascimento;
 	private String contratoContrato;
 	private String contratoDataVencimento;
 	private String condominioNome;
@@ -36,11 +38,11 @@ public class PessoaDto {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public String getDataNascimento() {
-		return dataNascimento;
+	public Date getNascimento() {
+		return nascimento;
 	}
-	public void setDataNascimento(String dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setNascimento(Date nascimento) {
+		this.nascimento = nascimento;
 	}
 	public String getContratoContrato() {
 		return contratoContrato;

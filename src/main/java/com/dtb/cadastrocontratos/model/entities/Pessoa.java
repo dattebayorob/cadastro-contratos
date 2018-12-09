@@ -2,6 +2,7 @@ package com.dtb.cadastrocontratos.model.entities;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +23,7 @@ public class Pessoa {
 	private Long id;
 	private String nome;
 	private String referencia;
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_contrato", nullable = false)
 	private Contrato contrato;
 	@Column(name = "data_nascimento")

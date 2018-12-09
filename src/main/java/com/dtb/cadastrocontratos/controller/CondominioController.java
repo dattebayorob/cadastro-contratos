@@ -33,11 +33,11 @@ public class CondominioController {
 	private ModelMapper modelMapper;
 
 	@GetMapping
-	public ResponseEntity<Response> buscarTodos() {
+	public List<CondominioResumidoDto> buscarTodos() {
 		List<Condominio> condominios = service.buscarTodos();
 		List<CondominioResumidoDto> condominiosDto = new ArrayList<>();
 		condominios.forEach(condominio -> condominiosDto.add(modelMapper.map(condominio, CondominioResumidoDto.class)));
-		return ResponseEntity.ok(Response.data(condominiosDto));
+		return condominiosDto;
 	}
 
 	@GetMapping(value = "/{id}")

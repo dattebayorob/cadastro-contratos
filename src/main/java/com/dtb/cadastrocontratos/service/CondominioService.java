@@ -13,4 +13,6 @@ public interface CondominioService {
 	public Condominio persistir(Condominio condominio);
 
 	public void deletar(Long id);
+
+	boolean hasCondominio(Long id);
 }

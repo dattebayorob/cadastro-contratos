@@ -30,5 +30,9 @@ public class CondominioServiceImpl implements CondominioService{
 	public void deletar(Long id) {
 		repository.deleteById(id);
 	}
+	@Override
+	public boolean hasCondominio(Long id) {
+		return repository.existsById(id);
+	}
 
 }

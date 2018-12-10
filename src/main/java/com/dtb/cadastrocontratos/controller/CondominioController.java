@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +50,7 @@ public class CondominioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Response> adicionar(@RequestBody CondominioDto condominioDto, BindingResult result) {
+	public ResponseEntity<Response> adicionar(@Validated @RequestBody CondominioDto condominioDto, BindingResult result) {
 		if (result.hasErrors()) {
 			List<String> errors = new ArrayList<>();
 			result.getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
@@ -61,7 +62,7 @@ public class CondominioController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Response> atualizar(@PathVariable("id") Long id, @RequestBody CondominioDto condominioDto,
+	public ResponseEntity<Response> atualizar(@PathVariable("id") Long id, @Validated @RequestBody CondominioDto condominioDto,
 			BindingResult result) {
 		Optional<Condominio> condominioPeloId = service.buscarPeloId(id);
 		if (!condominioPeloId.isPresent())

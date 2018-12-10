@@ -1,10 +1,10 @@
 package com.dtb.cadastrocontratos.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +28,9 @@ public class ContratoServiceImplTest {
 	
 	@Test
 	public void testContratoExistsContrato() {
+		Optional<Contrato> contratoPeloId = service.buscarPeloId(Long.valueOf(1));
 		Contrato contrato = service.buscarPeloContrato(CONTRATO);
-		assertNotNull(contrato);
+		assertEquals(contratoPeloId.get().getDataVencimento(), contrato.getDataVencimento());
 	}
 	@Test
 	public void testBooleanExistsContrato() {

@@ -1,6 +1,7 @@
 package com.dtb.cadastrocontratos.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,12 @@ public class ContratoServiceImpl implements ContratoService{
 
 	@Override
 	public Contrato buscarPeloContrato(String contrato) {
-		return repository.findByContrato(contrato).get(0); 
+		return repository.findByContrato(contrato);
+	}
+
+	@Override
+	public Optional<Contrato> buscarPeloId(Long id) {
+		return repository.findById(id);
 	}
 	
 	

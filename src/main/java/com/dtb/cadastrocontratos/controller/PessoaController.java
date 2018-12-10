@@ -62,7 +62,7 @@ public class PessoaController {
 	}
 
 	private void validarDadosPessoa(CadastroPessoaDto pessoaDto, BindingResult result) {
-		if(contratoService.existsContrato(pessoaDto.getContratoContrato())) {
+		if(contratoService.existePeloContrato(pessoaDto.getContratoContrato())) {
 			result.addError(new ObjectError("contrato", "contrato já existe"));
 		}
 	}

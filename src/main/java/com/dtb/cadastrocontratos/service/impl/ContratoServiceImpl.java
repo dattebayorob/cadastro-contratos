@@ -19,10 +19,18 @@ public class ContratoServiceImpl implements ContratoService{
 	}
 
 	@Override
-	public boolean existsContrato(String contrato) {
-		//To achando meio gambiarra...
-		List<Contrato> contratos = repository.findByContrato(contrato);
-		return !contratos.isEmpty();
+	public boolean existePeloContrato(String contrato) {
+		return repository.existsByContrato(contrato);
+	}
+
+	@Override
+	public List<Contrato> buscarTodos() {
+		return repository.findAll();
+	}
+
+	@Override
+	public Contrato buscarPeloContrato(String contrato) {
+		return repository.findByContrato(contrato).get(0); 
 	}
 	
 	

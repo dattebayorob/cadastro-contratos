@@ -16,7 +16,7 @@ public class CadastroPessoaDto {
 	@Length(min = 3, max = 255, message = "O nome deve conter entre 3 e 255 caracteres.")
 	private String nome;
 	private String referencia;
-	private Date dataNascimento;
+	private Date nascimento;
 	@NotNull(message = "O numero do contrato deve ser informado")
 	@Length(min = 12, message = "O contrato possui 12 caracteres. Formato: 000000011333")
 	private String contratoContrato;
@@ -49,11 +49,11 @@ public class CadastroPessoaDto {
 	public void setReferencia(String referencia) {
 		this.referencia = referencia;
 	}
-	public Date getDataNascimento() {
-		return dataNascimento;
+	public Date getNascimento() {
+		return nascimento;
 	}
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setNascimento(Date dataNascimento) {
+		this.nascimento = dataNascimento;
 	}
 	public String getContratoContrato() {
 		return contratoContrato;

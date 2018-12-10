@@ -12,7 +12,7 @@ INSERT INTO condominio(nome,endereco,numero,cep,bairro,cidade,estado)
 	VALUES('José de Alencar','Rua B Conj Res dos Escritores ','255','60000000','Paupina','Fortaleza','Ceará');
 CREATE TABLE contrato(
 	id BIGSERIAL PRIMARY KEY,
-	contrato VARCHAR(255) NOT NULL,
+	contrato VARCHAR(255) NOT NULL UNIQUE,
 	dia_vencimento INTEGER
 );
 CREATE TABLE pessoa(

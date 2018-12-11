@@ -61,6 +61,26 @@ public class PessoaController {
 		PessoaDto pessoaDto = modelMapper.map(pessoa.get(), PessoaDto.class);
 		return ResponseEntity.ok(Response.data(pessoaDto));
 	}
+	
+	/**
+	 * 
+	 * Atualizar informações de uma Pessoa com as informações repassadas pelo frontend
+	 * 
+	 * 	Obs. Utilizando cascade.ALL ou cascade.MERGE a persistencia da entidade Pessoa
+	 * acaba gerando uam nova entidade Contrato, ao invez de atualizar as informações
+	 * do contrato existente! Como agora contrato é uma coluna unica na tabela contrato
+	 * uma excessão do postgresql será retornada. 
+	 * 
+	 * 
+	 * @param id
+	 * @param cPessoaDto
+	 * @param result
+	 * @return ResponseEntity
+	 * 
+	 * 
+	 * 
+	 * */
+	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Response> atualizar(@PathVariable("id") Long id, @Validated @RequestBody CadastroPessoaDto cPessoaDto, BindingResult result){
 		Optional<Pessoa> pessoaPeloId = pessoaService.buscarPeloId(id);

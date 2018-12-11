@@ -3,6 +3,9 @@ package com.dtb.cadastrocontratos.model.response;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+
 public class Response {
 	private Object data;
 	private List<String> errors;
@@ -15,9 +18,9 @@ public class Response {
 	public static Response data(Object data) {
 		return new Response(data);
 	}
-	public static Response error(List<String> errors) {
+	public static Response error(List<ObjectError> errors) {
 		Response response = new Response();
-		errors.forEach(error -> response.getErrors().add(error));
+		errors.forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 		return response;
 	}
 	public Object getData() {

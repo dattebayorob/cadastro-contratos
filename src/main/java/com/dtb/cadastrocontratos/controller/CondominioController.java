@@ -52,9 +52,7 @@ public class CondominioController {
 	@PostMapping
 	public ResponseEntity<Response> adicionar(@Validated @RequestBody CondominioDto condominioDto, BindingResult result) {
 		if (result.hasErrors()) {
-			List<String> errors = new ArrayList<>();
-			result.getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(Response.error(errors));
+			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
 		}
 		Condominio condominio = modelMapper.map(condominioDto, Condominio.class);
 		condominio = service.persistir(condominio);
@@ -68,9 +66,7 @@ public class CondominioController {
 		if (!condominioPeloId.isPresent())
 			return ResponseEntity.notFound().build();
 		if (result.hasErrors()) {
-			List<String> errors = new ArrayList<>();
-			result.getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(Response.error(errors));
+			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
 		}
 		condominioDto.setId(id);
 		modelMapper.map(condominioDto, condominioPeloId.get());

@@ -69,7 +69,7 @@ public class PessoaController {
 		if(!cPessoaDto.getContratoContrato().equals(pessoaPeloId.get().getContrato().getContrato()))
 			validarContrato(cPessoaDto.getContratoContrato(), result);
 		if (result.hasErrors()) {
-			return validarDados(result);
+			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
 		}
 		Pessoa pessoa = modelMapper.map(cPessoaDto, Pessoa.class);
 		pessoa.setId(pessoaPeloId.get().getId());
@@ -81,7 +81,7 @@ public class PessoaController {
 	public ResponseEntity<Response> adicionar(@Validated @RequestBody CadastroPessoaDto pessoaDto, BindingResult result) {
 		validarContrato(pessoaDto.getContratoContrato(), result);
 		if (result.hasErrors()) {
-			return validarDados(result);
+			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
 		}
 		Pessoa pessoa = modelMapper.map(pessoaDto, Pessoa.class);
 		pessoa = pessoaService.persistir(pessoa);
@@ -92,11 +92,5 @@ public class PessoaController {
 		if(contratoService.existePeloContrato(contrato)) {
 			result.addError(new ObjectError("contrato", "contrato já existe"));
 		}
-	}
-	private ResponseEntity<Response> validarDados(BindingResult result){
-		new Response();
-		List<String> errors = new ArrayList<>();
-		result.getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
-		return ResponseEntity.badRequest().body(Response.error(errors));
 	}
 }

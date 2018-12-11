@@ -89,9 +89,8 @@ public class PessoaController {
 			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
 		}
 		cPessoaDto.setId(id);
-		Pessoa pessoa = modelMapper.map(cPessoaDto, Pessoa.class);
-		BeanUtils.copyProperties(pessoa, pessoaPeloId.get());
-		pessoa = pessoaService.persistir(pessoaPeloId.get());
+		modelMapper.map(cPessoaDto, pessoaPeloId.get());
+		Pessoa pessoa = pessoaService.persistir(pessoaPeloId.get());
 		return ResponseEntity.ok(Response.data(modelMapper.map(pessoa, CadastroPessoaDto.class)));
 	}
 

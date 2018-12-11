@@ -76,7 +76,7 @@ public class CondominioController {
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response> deletarPeloId(@PathVariable("id") Long id) {
-		if(!service.hasCondominio(id))
+		if(!service.existePeloId(id))
 			return ResponseEntity.notFound().build();
 		service.deletar(id);
 		return ResponseEntity.noContent().build();

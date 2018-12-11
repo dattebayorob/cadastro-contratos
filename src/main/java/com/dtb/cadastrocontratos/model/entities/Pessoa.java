@@ -23,7 +23,7 @@ public class Pessoa {
 	private Long id;
 	private String nome;
 	private String referencia;
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_contrato", nullable = false)
 	private Contrato contrato;
 	@Column(name = "data_nascimento")

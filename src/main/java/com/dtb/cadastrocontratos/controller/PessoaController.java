@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -66,11 +67,7 @@ public class PessoaController {
 	 * 
 	 * Atualizar informações de uma Pessoa com as informações repassadas pelo frontend
 	 * 
-	 * 	Obs. Utilizando cascade.ALL ou cascade.MERGE a persistencia da entidade Pessoa
-	 * acaba gerando uam nova entidade Contrato, ao invez de atualizar as informações
-	 * do contrato existente! Como agora contrato é uma coluna unica na tabela contrato
-	 * uma excessão do postgresql será retornada. 
-	 * 
+	 * 	 
 	 * 
 	 * @param id
 	 * @param cPessoaDto
@@ -91,10 +88,11 @@ public class PessoaController {
 		if (result.hasErrors()) {
 			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
 		}
+		cPessoaDto.setId(id);
 		Pessoa pessoa = modelMapper.map(cPessoaDto, Pessoa.class);
-		pessoa.setId(pessoaPeloId.get().getId());
-		pessoa = pessoaService.persistir(pessoa);
-		return ResponseEntity.ok(Response.data(modelMapper.map(pessoa, PessoaDto.class)));
+		BeanUtils.copyProperties(pessoa, pessoaPeloId.get());
+		pessoa = pessoaService.persistir(pessoaPeloId.get());
+		return ResponseEntity.ok(Response.data(modelMapper.map(pessoa, CadastroPessoaDto.class)));
 	}
 
 	@PostMapping

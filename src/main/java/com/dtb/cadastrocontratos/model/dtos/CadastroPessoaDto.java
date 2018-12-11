@@ -17,6 +17,7 @@ public class CadastroPessoaDto {
 	private String nome;
 	private String referencia;
 	private Date nascimento;
+	private Long contratoId;
 	@NotNull(message = "O numero do contrato deve ser informado")
 	@Length(min = 12, message = "O contrato possui 12 caracteres. Formato: 000000011333")
 	private String contratoContrato;
@@ -54,6 +55,13 @@ public class CadastroPessoaDto {
 	}
 	public void setNascimento(Date dataNascimento) {
 		this.nascimento = dataNascimento;
+	}
+	
+	public Long getContratoId() {
+		return contratoId;
+	}
+	public void setContratoId(Long contratoId) {
+		this.contratoId = contratoId;
 	}
 	public String getContratoContrato() {
 		return contratoContrato;

@@ -30,4 +30,14 @@ public class PessoaServiceImpl implements PessoaService{
 	public Optional<Pessoa> buscarPeloId(Long id) {
 		 return repository.findById(id);
 	}
+
+	@Override
+	public boolean existe(Long id) {
+		return repository.existsById(id);
+	}
+
+	@Override
+	public void deletar(Long id) {
+		repository.deleteById(id);
+	}
 }

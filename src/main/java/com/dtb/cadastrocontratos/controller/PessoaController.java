@@ -1,19 +1,18 @@
 package com.dtb.cadastrocontratos.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dtb.cadastrocontratos.model.dtos.CadastroPessoaDto;
 import com.dtb.cadastrocontratos.model.dtos.PessoaDto;
-import com.dtb.cadastrocontratos.model.entities.Contrato;
 import com.dtb.cadastrocontratos.model.entities.Pessoa;
 import com.dtb.cadastrocontratos.model.response.Response;
 import com.dtb.cadastrocontratos.service.ContratoService;
@@ -59,7 +57,7 @@ public class PessoaController {
 		Optional<Pessoa> pessoa = pessoaService.buscarPeloId(id);
 		if (!pessoa.isPresent())
 			return ResponseEntity.notFound().build();
-		PessoaDto pessoaDto = modelMapper.map(pessoa.get(), PessoaDto.class);
+		CadastroPessoaDto pessoaDto = modelMapper.map(pessoa.get(), CadastroPessoaDto.class);
 		return ResponseEntity.ok(Response.data(pessoaDto));
 	}
 	
@@ -102,8 +100,17 @@ public class PessoaController {
 		}
 		Pessoa pessoa = modelMapper.map(pessoaDto, Pessoa.class);
 		pessoa = pessoaService.persistir(pessoa);
-		return ResponseEntity.ok(Response.data(modelMapper.map(pessoa, PessoaDto.class)));
+		return new ResponseEntity<>(Response.data(modelMapper.map(pessoa, PessoaDto.class)),HttpStatus.CREATED);
 	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Response> deletar(@PathVariable("id") Long id){
+		if(!pessoaService.existe(id))
+			return ResponseEntity.notFound().build();
+		pessoaService.deletar(id);
+		return ResponseEntity.notFound().build();
+	}
+	
 
 	private void validarContrato(String contrato, BindingResult result) {
 		if(contratoService.existePeloContrato(contrato)) {

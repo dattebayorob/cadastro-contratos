@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CadastroPessoaDto {
 	private Long id;
 	@NotNull(message = "O cpf deve ser informado.")
@@ -16,6 +18,7 @@ public class CadastroPessoaDto {
 	@Length(min = 3, max = 255, message = "O nome deve conter entre 3 e 255 caracteres.")
 	private String nome;
 	private String referencia;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date nascimento;
 	private Long contratoId;
 	@NotNull(message = "O numero do contrato deve ser informado")

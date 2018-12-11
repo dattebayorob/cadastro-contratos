@@ -2,11 +2,14 @@ package com.dtb.cadastrocontratos.model.dtos;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PessoaDto {
 	private Long id;
 	private String nome;
 	private String cpf;
 	private String referencia;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date nascimento;
 	private String contratoContrato;
 	private String contratoDataVencimento;

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ import com.dtb.cadastrocontratos.service.PessoaService;
 
 @RestController
 @RequestMapping(value = "/pessoas")
+@CrossOrigin(origins="*")
 public class PessoaController {
 	@Autowired
 	private PessoaService pessoaService;

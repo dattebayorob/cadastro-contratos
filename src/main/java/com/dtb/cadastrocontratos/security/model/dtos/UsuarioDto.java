@@ -3,9 +3,7 @@ package com.dtb.cadastrocontratos.security.model.dtos;
 public class UsuarioDto {
 	private Long id;
 	private String nome;
-	private String usuario;
-	private String senha;
-	private String confirmaSenha;
+	private String login;
 	private String permissao;
 	public Long getId() {
 		return id;
@@ -19,23 +17,12 @@ public class UsuarioDto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getUsuario() {
-		return usuario;
+	
+	public String getLogin() {
+		return login;
 	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-	public String getConfirmaSenha() {
-		return confirmaSenha;
-	}
-	public void setConfirmaSenha(String confirmaSenha) {
-		this.confirmaSenha = confirmaSenha;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 	public String getPermissao() {
 		return permissao;

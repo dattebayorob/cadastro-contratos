@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,24 +51,17 @@ public class CondominioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Response> adicionar(@Validated @RequestBody CondominioDto condominioDto, BindingResult result) {
-		if (result.hasErrors()) {
-			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
-		}
+	public ResponseEntity<Response> adicionar(@Validated @RequestBody CondominioDto condominioDto) {
 		Condominio condominio = modelMapper.map(condominioDto, Condominio.class);
 		condominio = service.persistir(condominio);
 		return new ResponseEntity<>(Response.data(condominio), HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Response> atualizar(@PathVariable("id") Long id, @Validated @RequestBody CondominioDto condominioDto,
-			BindingResult result) {
+	public ResponseEntity<Response> atualizar(@PathVariable("id") Long id, @Validated @RequestBody CondominioDto condominioDto) {
 		Optional<Condominio> condominioPeloId = service.buscarPeloId(id);
 		if (!condominioPeloId.isPresent())
 			return ResponseEntity.notFound().build();
-		if (result.hasErrors()) {
-			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
-		}
 		condominioDto.setId(id);
 		modelMapper.map(condominioDto, condominioPeloId.get());
 		Condominio condominio = service.persistir(condominioPeloId.get());

@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.dtb.cadastrocontratos.model.exception.ResourceNotFoundException;
-import com.dtb.cadastrocontratos.model.response.Response;
-import com.dtb.cadastrocontratos.model.response.ResponseError;
+import com.dtb.cadastrocontratos.model.exceptions.ResourceNotFoundException;
+import com.dtb.cadastrocontratos.model.responses.Response;
+import com.dtb.cadastrocontratos.model.responses.ResponseError;
 
 @RestControllerAdvice
 public class WebRestControllerAdvice {

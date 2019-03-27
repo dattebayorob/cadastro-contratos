@@ -29,4 +29,4 @@ CREATE TABLE pessoa(
 INSERT INTO contrato(contrato,dia_vencimento)
 	VALUES('777777722333','27');
 INSERT INTO pessoa(nome,referencia,cpf,data_nascimento,id_contrato,id_condominio,apartamento,bloco)
-	VALUES('Carinha que mora logo ali','Carinha que mora logo ali passa 1 dolar','00000000000','18-11-1993','1','1','104','27');
+	VALUES('Carinha que mora logo ali','Carinha que mora logo ali passa 1 dolar','00000000000','1993-11-18','1','1','104','27');

@@ -12,4 +12,7 @@ public class UsuarioDto {
 	private String nome;
 	private String login;
 	private String permissao;
+	public UsuarioDto() {
+		// TODO Auto-generated constructor stub
+	}
 }

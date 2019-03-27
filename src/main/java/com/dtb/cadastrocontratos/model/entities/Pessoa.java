@@ -41,4 +41,7 @@ public class Pessoa {
 	private String bloco;
 	private String apartamento;
 	private String cpf;
+	public Pessoa() {
+		// TODO Auto-generated constructor stub
+	}
 }

@@ -23,4 +23,7 @@ public class PessoaDto {
 	private String condominioNome;
 	private String apartamento;
 	private String bloco;
+	public PessoaDto() {
+		// TODO Auto-generated constructor stub
+	}
 }

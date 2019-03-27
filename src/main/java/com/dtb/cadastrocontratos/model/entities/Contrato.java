@@ -23,5 +23,8 @@ public class Contrato {
 	@Column(name = "contrato", unique = true, nullable = false)
 	private String contrato;
 	@Column(name = "dia_vencimento")
-	private int dataVencimento;	
+	private int dataVencimento;
+	public Contrato() {
+		// TODO Auto-generated constructor stub
+	}
 }

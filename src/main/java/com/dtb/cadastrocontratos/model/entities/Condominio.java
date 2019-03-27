@@ -26,4 +26,7 @@ public class Condominio {
 	private String bairro;
 	private String cidade;
 	private String estado;
+	public Condominio() {
+		// TODO Auto-generated constructor stub
+	}
 }

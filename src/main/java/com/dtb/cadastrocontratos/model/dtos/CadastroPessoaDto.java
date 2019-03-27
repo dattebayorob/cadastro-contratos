@@ -35,4 +35,7 @@ public class CadastroPessoaDto {
 	private Long condominioId;
 	private String apartamento;
 	private String bloco;
+	public CadastroPessoaDto() {
+		// TODO Auto-generated constructor stub
+	}
 }

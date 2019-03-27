@@ -10,4 +10,7 @@ import lombok.Data;
 public class CondominioResumidoDto {
 	private Long id;
 	private String nome;
+	public CondominioResumidoDto() {
+		// TODO Auto-generated constructor stub
+	}
 }

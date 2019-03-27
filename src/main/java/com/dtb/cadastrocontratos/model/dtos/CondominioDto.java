@@ -28,4 +28,7 @@ public class CondominioDto {
 	private String cidade;
 	@NotNull(message = "O estado deve ser informado.")
 	private String estado;
+	public CondominioDto() {
+		// TODO Auto-generated constructor stub
+	}
 }

@@ -8,8 +8,8 @@ import com.dtb.cadastrocontratos.model.converters.Convert;
 import com.dtb.cadastrocontratos.model.converters.Converter;
 
 @Component
-public class ConverterImpl<E, D> implements Converter<E, D>{
-	
+public class ConverterImpl<E, D> implements Converter<E, D> {
+
 	@Override
 	public Convert<E, D> toDto(Class<D> dtoClazz) {
 		return entity -> map().map(entity, dtoClazz);
@@ -18,6 +18,14 @@ public class ConverterImpl<E, D> implements Converter<E, D>{
 	@Override
 	public Convert<D, E> toEntity(Class<E> entityClazz) {
 		return dto -> map().map(dto, entityClazz);
+	}
+
+	@Override
+	public Convert<D, E> toEntity(E entity) {
+		return dto -> {
+			map().map(dto, entity);
+			return entity;
+		};
 	}
 
 	@Bean

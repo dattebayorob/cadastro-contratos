@@ -4,4 +4,6 @@ public interface Converter<E, D> {
 	public Convert<E, D> toDto(Class<D> dtoClazz);
 
 	public Convert<D, E> toEntity(Class<E> entityClazz);
+	
+	public Convert<D,E> toEntity(E entity);
 }

@@ -9,6 +9,13 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@Builder
+@AllArgsConstructor
+@Data
 public class CadastroPessoaDto {
 	private Long id;
 	@NotNull(message = "O cpf deve ser informado.")
@@ -28,74 +35,4 @@ public class CadastroPessoaDto {
 	private Long condominioId;
 	private String apartamento;
 	private String bloco;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	public String getReferencia() {
-		return referencia;
-	}
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-	public Date getNascimento() {
-		return nascimento;
-	}
-	public void setNascimento(Date dataNascimento) {
-		this.nascimento = dataNascimento;
-	}
-	
-	public Long getContratoId() {
-		return contratoId;
-	}
-	public void setContratoId(Long contratoId) {
-		this.contratoId = contratoId;
-	}
-	public String getContratoContrato() {
-		return contratoContrato;
-	}
-	public void setContratoContrato(String contratoContrato) {
-		this.contratoContrato = contratoContrato;
-	}
-	public String getContratoDataVencimento() {
-		return contratoDataVencimento;
-	}
-	public void setContratoDataVencimento(String contratoDataVencimento) {
-		this.contratoDataVencimento = contratoDataVencimento;
-	}
-	
-	public Long getCondominioId() {
-		return condominioId;
-	}
-	public void setCondominioId(Long condominioId) {
-		this.condominioId = condominioId;
-	}
-	public String getApartamento() {
-		return apartamento;
-	}
-	public void setApartamento(String apartamento) {
-		this.apartamento = apartamento;
-	}
-	public String getBloco() {
-		return bloco;
-	}
-	public void setBloco(String bloco) {
-		this.bloco = bloco;
-	}
-	
 }

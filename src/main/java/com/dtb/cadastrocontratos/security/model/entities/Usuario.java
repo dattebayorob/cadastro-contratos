@@ -11,8 +11,15 @@ import javax.persistence.Table;
 
 import com.dtb.cadastrocontratos.security.model.enums.UsuarioPermissaoEnum;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 @Entity
 @Table(name = "usuario")
+@Data
+@Builder
+@AllArgsConstructor
 public class Usuario{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,42 +34,4 @@ public class Usuario{
 	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getLogin() {
-		return login;
-	}
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-	public UsuarioPermissaoEnum getPermissao() {
-		return permissao;
-	}
-	public void setPermissao(UsuarioPermissaoEnum permissao) {
-		this.permissao = permissao;
-	}
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", login=" + login + ", nome=" + nome + ", senha=" + senha + ", permissao="
-				+ permissao + "]";
-	}
-	
-	
 }

@@ -14,8 +14,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 @Entity
 @Table(name = "pessoa")
+@Data
+@Builder
+@AllArgsConstructor
 public class Pessoa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,61 +41,4 @@ public class Pessoa {
 	private String bloco;
 	private String apartamento;
 	private String cpf;
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getReferencia() {
-		return referencia;
-	}
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-	public Contrato getContrato() {
-		return contrato;
-	}
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
-	}
-	public Date getNascimento() {
-		return nascimento;
-	}
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
-	}
-	public Condominio getCondominio() {
-		return condominio;
-	}
-	public void setCondominio(Condominio condominio) {
-		this.condominio = condominio;
-	}
-	public String getBloco() {
-		return bloco;
-	}
-	public void setBloco(String bloco) {
-		this.bloco = bloco;
-	}
-	public String getApartamento() {
-		return apartamento;
-	}
-	public void setApartamento(String apartamento) {
-		this.apartamento = apartamento;
-	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	
-	
 }

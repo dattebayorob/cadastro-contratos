@@ -1,16 +1,11 @@
 package com.dtb.cadastrocontratos.controller;
 
-import java.util.Optional;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.dtb.cadastrocontratos.model.converters.Converter;
 import com.dtb.cadastrocontratos.model.dtos.CadastroPessoaDto;
 import com.dtb.cadastrocontratos.model.dtos.PessoaDto;
 import com.dtb.cadastrocontratos.model.entities.Pessoa;
-import com.dtb.cadastrocontratos.model.response.Response;
+import com.dtb.cadastrocontratos.model.exceptions.ResourceNotFoundException;
+import com.dtb.cadastrocontratos.model.responses.Response;
+import com.dtb.cadastrocontratos.model.responses.ResponseData;
 import com.dtb.cadastrocontratos.service.ContratoService;
 import com.dtb.cadastrocontratos.service.PessoaService;
 
@@ -35,11 +34,13 @@ import com.dtb.cadastrocontratos.service.PessoaService;
 @CrossOrigin(origins="*")
 public class PessoaController {
 	@Autowired
-	private PessoaService pessoaService;
+	private PessoaService service;
 	@Autowired
 	private ContratoService contratoService;
 	@Autowired
-	private ModelMapper modelMapper;
+	private Converter<Pessoa, PessoaDto> converter;
+	@Autowired
+	private Converter<Pessoa, CadastroPessoaDto> cadastroConverter;
 
 	@GetMapping
 	public ResponseEntity<Response> buscarTodos(
@@ -47,20 +48,24 @@ public class PessoaController {
 			@RequestParam(value = "size", defaultValue = "5") int size,
 			@RequestParam(value = "order", defaultValue = "id") String order,
 			@RequestParam(value = "dir", defaultValue = "ASC") String dir) {
-		Page<Pessoa> pessoas = pessoaService.buscarTodas(PageRequest.of(index, size,Direction.valueOf(dir),order));
+		Page<Pessoa> pessoas = service.buscarTodas(PageRequest.of(index, size,Direction.valueOf(dir),order));
 		if(pessoas.isEmpty())
 			return ResponseEntity.noContent().build();
-		Page<PessoaDto> pessoasDto = pessoas.map(pessoa -> modelMapper.map(pessoa, PessoaDto.class));
-		return ResponseEntity.ok(Response.data(pessoasDto)); 
+		return ResponseEntity.ok(
+				ResponseData.data(
+						converter.toDto(PessoaDto.class).convert(pessoas)
+						)
+				);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Response> buscarPeloId(@PathVariable("id") Long id) {
-		Optional<Pessoa> pessoa = pessoaService.buscarPeloId(id);
-		if (!pessoa.isPresent())
-			return ResponseEntity.notFound().build();
-		CadastroPessoaDto pessoaDto = modelMapper.map(pessoa.get(), CadastroPessoaDto.class);
-		return ResponseEntity.ok(Response.data(pessoaDto));
+		Pessoa pessoa = service.buscarPeloId(id).orElseThrow(() -> new ResourceNotFoundException("Não encontrado"));
+		return ResponseEntity.ok(
+				ResponseData.data(
+						converter.toDto(PessoaDto.class).convert(pessoa)
+						)
+				);
 	}
 	
 	/**
@@ -79,44 +84,43 @@ public class PessoaController {
 	 * */
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Response> atualizar(@PathVariable("id") Long id, @Validated @RequestBody CadastroPessoaDto cPessoaDto, BindingResult result){
-		Optional<Pessoa> pessoaPeloId = pessoaService.buscarPeloId(id);
-		if(!pessoaPeloId.isPresent())
-			return ResponseEntity.notFound().build();
-		if(!cPessoaDto.getContratoContrato().equals(pessoaPeloId.get().getContrato().getContrato()))
-			validarContrato(cPessoaDto.getContratoContrato(), result);
-		if (result.hasErrors()) {
-			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
-		}
-		cPessoaDto.setId(id);
-		modelMapper.map(cPessoaDto, pessoaPeloId.get());
-		Pessoa pessoa = pessoaService.persistir(pessoaPeloId.get());
-		return ResponseEntity.ok(Response.data(modelMapper.map(pessoa, CadastroPessoaDto.class)));
+	public ResponseEntity<Response> atualizar(@PathVariable("id") Long id, @Validated @RequestBody CadastroPessoaDto dto){
+		Pessoa pessoa = service.buscarPeloId(id).orElseThrow(() -> new ResourceNotFoundException("Não encontrado"));
+		
+		// TODO: Regra de negócio deve estar no service
+		if(!dto.getContratoContrato().equals(pessoa.getContrato().getContrato()))
+			validarContrato(dto.getContratoContrato());
+		dto.setId(id);
+		return ResponseEntity.ok(
+				ResponseData.data(
+						service.persistir(cadastroConverter.toEntity(pessoa).convert(dto))
+						)
+				);
 	}
 
 	@PostMapping
-	public ResponseEntity<Response> adicionar(@Validated @RequestBody CadastroPessoaDto pessoaDto, BindingResult result) {
-		validarContrato(pessoaDto.getContratoContrato(), result);
-		if (result.hasErrors()) {
-			return ResponseEntity.badRequest().body(Response.error(result.getAllErrors()));
-		}
-		Pessoa pessoa = modelMapper.map(pessoaDto, Pessoa.class);
-		pessoa = pessoaService.persistir(pessoa);
-		return new ResponseEntity<>(Response.data(modelMapper.map(pessoa, PessoaDto.class)),HttpStatus.CREATED);
+	public ResponseEntity<Response> adicionar(@Validated @RequestBody CadastroPessoaDto dto) {
+		validarContrato(dto.getContratoContrato());
+		Pessoa pessoa = cadastroConverter.toEntity(Pessoa.class).convert(dto);
+		return new ResponseEntity<Response>(
+				ResponseData.data(
+						cadastroConverter.toDto(CadastroPessoaDto.class).convert(service.persistir(pessoa))
+						), HttpStatus.CREATED
+				);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response> deletar(@PathVariable("id") Long id){
-		if(!pessoaService.existe(id))
-			return ResponseEntity.notFound().build();
-		pessoaService.deletar(id);
-		return ResponseEntity.notFound().build();
+		Pessoa pessoa = service.buscarPeloId(id).orElseThrow(() -> new ResourceNotFoundException("Não encontrado"));
+
+		service.deletar(pessoa.getId());
+		return ResponseEntity.noContent().build();
 	}
 	
 
-	private void validarContrato(String contrato, BindingResult result) {
+	private void validarContrato(String contrato) {
 		if(contratoService.existePeloContrato(contrato)) {
-			result.addError(new ObjectError("contrato", "contrato já existe"));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "contrato já existe");
 		}
 	}
 }

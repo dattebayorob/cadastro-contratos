@@ -1,8 +1,5 @@
 package com.dtb.cadastrocontratos.security.controller;
 
-import java.util.Optional;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dtb.cadastrocontratos.model.response.Response;
+import com.dtb.cadastrocontratos.model.converters.Converter;
+import com.dtb.cadastrocontratos.model.exceptions.ResourceNotFoundException;
+import com.dtb.cadastrocontratos.model.responses.Response;
+import com.dtb.cadastrocontratos.model.responses.ResponseData;
 import com.dtb.cadastrocontratos.security.model.dtos.UsuarioDto;
 import com.dtb.cadastrocontratos.security.model.entities.Usuario;
 import com.dtb.cadastrocontratos.security.service.UsuarioService;
@@ -25,14 +25,16 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService service;
 	@Autowired
-	private ModelMapper modelMapper;
+	private Converter<Usuario, UsuarioDto> converter;
 
 	@GetMapping(value = "/{login}")
 	public ResponseEntity<Response> buscarPeloId(@PathVariable("login") String login) {
-		Optional<Usuario> usuario = service.buscarPeloLogin(login);
-		if(!usuario.isPresent())
-			return ResponseEntity.notFound().build();
-		UsuarioDto dto = modelMapper.map(usuario.get(), UsuarioDto.class);
-		return ResponseEntity.ok(Response.data(dto));
+		Usuario usuario = service.buscarPeloLogin(login).orElseThrow(() -> new ResourceNotFoundException("Não encontrado"));
+
+		return ResponseEntity.ok(
+				ResponseData.data(
+						converter.toDto(UsuarioDto.class).convert(usuario)
+						)
+				);
 	}
 }

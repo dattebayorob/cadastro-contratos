@@ -1,4 +1,4 @@
-package com.dtb.cadastrocontratos.model.exception;
+package com.dtb.cadastrocontratos.model.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException{
 

@@ -1,4 +1,4 @@
-package com.dtb.cadastrocontratos.model.response;
+package com.dtb.cadastrocontratos.model.responses;
 
 import java.util.Arrays;
 import java.util.List;

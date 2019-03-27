@@ -1,4 +1,4 @@
-package com.dtb.cadastrocontratos.model.response;
+package com.dtb.cadastrocontratos.model.responses;
 
 import lombok.Getter;
 

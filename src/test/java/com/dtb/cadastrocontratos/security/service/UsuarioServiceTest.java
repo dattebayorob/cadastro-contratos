@@ -18,7 +18,7 @@ import com.dtb.cadastrocontratos.security.model.entities.Usuario;
 public class UsuarioServiceTest {
 	@Autowired
 	private UsuarioService service;
-	private static final String LOGIN = "adminnnnn";
+	private static final String LOGIN = "admin";
 	private static final Long ID = Long.valueOf(1);
 	
 	@Test
